@@ -56,8 +56,9 @@ with c2:
     hdd = c2.selectbox('HDD',[0,128,256,512,1040,2048])
     ssd = c2.selectbox('SSD',[0,8,128,256,512,1024])
 
+image_path = os.path.join(os.path.dirname(__file__), "laptop.png")
     with c3:
-        st.image('laptop.PNG','Create, Make and build something wounderfull!')
+        st.image(image_path,'Create, Make and build something wounderfull!')
 res_x = resolution.split('x')[0]
 res_y = resolution.split('x')[1]
 ppi = (((int(res_x))**2 + (int(res_y))**2)**.5)/float(screensize)
