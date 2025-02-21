@@ -1,17 +1,17 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import pickle
 import os
-
+from joblib import load
 
 #page setup and title
 st.set_page_config(page_title='Laptop-price👨‍💻',layout='wide')
 st.header('Laptop Price predictor tool', divider="rainbow")
 
 #load model data
-pipe = pickle.load(open('Pipe.pkl','rb')) #os.path.join('Computer_Pipe.pkl')
+#pipe = pickle.load(open('Pipe.pkl','rb')) #os.path.join('Computer_Pipe.pkl')
+pipe = load('Pipe.pkl')
 data_path = os.path.join('df.pkl')
 
 #df_ =df.groupby('Company')['Price'].sum()
@@ -56,18 +56,16 @@ with c2:
     hdd = c2.selectbox('HDD',[0,128,256,512,1040,2048])
     ssd = c2.selectbox('SSD',[0,8,128,256,512,1024])
 
-image_path = os.path.join(os.path.dirname(__file__), "laptop.png")
-    with c3:
-        st.image(image_path,'Create, Make and build something wounderfull!')
-res_x = resolution.split('x')[0]
-res_y = resolution.split('x')[1]
-ppi = (((int(res_x))**2 + (int(res_y))**2)**.5)/float(screensize)
-
-query = np.array([compnamy,type,ram,weight,toughscreen,ips,ppi,cpu,gpu,os,hdd,ssd])
-query = query.reshape(1,12)
-prediction ="The predicted price of this configuration is: Rs " + str(np.round(np.exp(pipe.predict(query)[0]),0))
-
 with c3:
+    st.image('laptop.png','Create, Make and build something wounderfull!')
+    res_x = resolution.split('x')[0]
+    res_y = resolution.split('x')[1]
+    ppi = (((int(res_x))**2 + (int(res_y))**2)**.5)/float(screensize)
+
+    query = np.array([compnamy,type,ram,weight,toughscreen,ips,ppi,cpu,gpu,os,hdd,ssd])
+    query = query.reshape(1,12)
+    prediction ="The predicted price of this configuration is: Rs " + str(np.round(np.exp(pipe.predict(query)[0]),0))
+
     st.subheader(prediction)
 
 
