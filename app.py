@@ -68,7 +68,7 @@ if c2.button('Predict Price'):
     query = np.array([compnamy,type,ram,weight,toughscreen,ips,ppi,cpu,gpu,os,hdd,ssd])
     query = query.reshape(1,12)
     prediction ="The predicted price of this configuration is: Rs " + str(np.round(np.exp(pipe.predict(query)[0]),0))
-    c3.title(prediction)
+    c3.subheader(prediction)
 
 
     
